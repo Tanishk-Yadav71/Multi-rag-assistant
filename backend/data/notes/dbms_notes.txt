@@ -1,0 +1,46 @@
+Database Management System (DBMS)
+
+A DBMS is software used to create, manage, and manipulate databases.
+
+Advantages:
+- Data consistency
+- Data security
+- Reduced redundancy
+- Backup and recovery
+
+Normalization
+
+Normalization is the process of organizing data to reduce redundancy and improve data integrity.
+
+Normal Forms
+
+First Normal Form (1NF)
+- Atomic values only
+- No repeating groups
+
+Second Normal Form (2NF)
+- Must be in 1NF
+- Remove partial dependency
+
+Third Normal Form (3NF)
+- Must be in 2NF
+- Remove transitive dependency
+
+Boyce-Codd Normal Form (BCNF)
+- Every determinant must be a candidate key
+
+Benefits of Normalization
+- Reduces redundancy
+- Improves consistency
+- Prevents update anomalies
+
+Keys
+
+Primary Key
+- Uniquely identifies a record
+
+Foreign Key
+- References a primary key in another table
+
+Candidate Key
+- Can uniquely identify a record

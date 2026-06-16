@@ -1,0 +1,36 @@
+Engineering Economics
+
+Engineering Economics helps evaluate financial decisions in engineering projects.
+
+Capital Budgeting Techniques
+
+Net Present Value (NPV)
+
+NPV is the difference between the present value of cash inflows and cash outflows.
+
+Decision Rule:
+NPV > 0 → Accept
+NPV < 0 → Reject
+
+Internal Rate of Return (IRR)
+
+IRR is the discount rate at which NPV becomes zero.
+
+Payback Period
+
+The time required to recover the initial investment.
+
+Benefit Cost Ratio (BCR)
+
+BCR = Benefits / Costs
+
+Decision Rule:
+BCR > 1 → Accept
+
+Replacement Analysis
+
+Used to determine whether an existing asset should be replaced.
+
+Sensitivity Analysis
+
+Studies how changes in variables affect project outcomes.

@@ -1,0 +1,48 @@
+LangChain Overview
+
+LangChain is a framework for building applications powered by large language models (LLMs).
+
+Core Components:
+
+1. Models
+   - Chat models
+   - Embedding models
+
+2. Prompts
+   - Prompt templates
+   - Dynamic prompt generation
+
+3. Retrievers
+   - Retrieve relevant information from knowledge bases
+   - Commonly used in RAG systems
+
+4. Vector Stores
+   - Store embeddings
+   - Support similarity search
+
+Popular Vector Stores:
+- Chroma
+- FAISS
+- Pinecone
+
+Retrieval Augmented Generation (RAG)
+
+RAG combines retrieval systems with language models.
+
+Workflow:
+User Query
+→ Retrieve relevant documents
+→ Build context
+→ Generate answer
+
+Benefits:
+- Reduces hallucinations
+- Uses external knowledge
+- Provides citations
+
+Common Retrieval Methods:
+- Similarity Search
+- Maximum Marginal Relevance (MMR)
+- Hybrid Search
+
+LangChain supports agents, chains, memory, retrievers, and vector databases.

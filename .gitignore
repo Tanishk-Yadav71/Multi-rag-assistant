@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Chroma Vector Databases
+backend/vector_store/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

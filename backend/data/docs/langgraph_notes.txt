@@ -1,0 +1,42 @@
+LangGraph Overview
+
+LangGraph is a framework for building stateful AI agents.
+
+It extends LangChain by allowing workflows to be represented as graphs.
+
+Concepts
+
+Nodes
+- Perform tasks
+
+Edges
+- Define transitions
+
+State
+- Shared information between nodes
+
+Benefits
+
+- Multi-agent systems
+- Tool calling
+- Workflow orchestration
+- Memory management
+
+Example Workflow
+
+User Query
+→ Router Node
+→ Retrieval Node
+→ LLM Node
+→ Response
+
+LangGraph is commonly used for agentic RAG applications.
+
+Agentic RAG
+
+Agentic RAG uses reasoning and planning before retrieval.
+
+Benefits:
+- Better retrieval decisions
+- Multi-step reasoning
+- Improved answer quality

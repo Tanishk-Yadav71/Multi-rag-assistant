@@ -1,0 +1,43 @@
+Chroma Vector Database
+
+Chroma is an open-source vector database used in Retrieval Augmented Generation systems.
+
+Purpose:
+- Store embeddings
+- Perform similarity search
+- Retrieve relevant documents
+
+Workflow
+
+1. Load documents
+2. Split into chunks
+3. Generate embeddings
+4. Store embeddings
+5. Retrieve similar chunks
+
+Common Operations
+
+Add Documents
+Query Documents
+Delete Documents
+
+Advantages
+
+- Lightweight
+- Easy to use
+- Local storage support
+- LangChain integration
+
+Chroma stores vector embeddings and metadata for efficient retrieval.
+
+Similarity Search
+
+A query embedding is compared against stored embeddings.
+
+The most similar chunks are returned to the user.
+
+MMR Retrieval
+
+Maximum Marginal Relevance retrieves relevant and diverse chunks.
+
+MMR helps reduce duplicate results.

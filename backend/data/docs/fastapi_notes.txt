@@ -1,0 +1,62 @@
+FastAPI Overview
+
+FastAPI is a modern Python web framework used to build APIs.
+
+Features:
+- Fast performance
+- Automatic API documentation
+- Type validation
+- Easy integration with machine learning applications
+
+Routes
+
+Routes define API endpoints.
+
+A route connects a URL path to a Python function.
+
+Example:
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Hello World"}
+
+HTTP Methods
+
+GET
+- Retrieve data
+
+POST
+- Create data
+
+PUT
+- Update data
+
+DELETE
+- Delete data
+
+Example:
+
+@app.post("/users")
+def create_user():
+    return {"status": "created"}
+
+Path Parameters
+
+@app.get("/users/{user_id}")
+
+FastAPI automatically extracts values from URLs.
+
+Query Parameters
+
+@app.get("/search")
+def search(query: str):
+    return {"query": query}
+
+FastAPI automatically generates API documentation at:
+
+/docs
+/redoc

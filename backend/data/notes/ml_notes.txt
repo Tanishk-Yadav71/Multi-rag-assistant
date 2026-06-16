@@ -1,0 +1,42 @@
+Machine Learning Fundamentals
+
+Machine Learning is a branch of Artificial Intelligence that enables systems to learn from data.
+
+Types of Machine Learning
+
+Supervised Learning
+- Uses labeled data
+
+Unsupervised Learning
+- Uses unlabeled data
+
+Reinforcement Learning
+- Learns through rewards and penalties
+
+Common Algorithms
+
+- Linear Regression
+- Logistic Regression
+- Decision Trees
+- Random Forest
+- Support Vector Machine
+- K-Nearest Neighbors
+
+Model Evaluation Metrics
+
+Accuracy
+Precision
+Recall
+F1 Score
+
+Overfitting
+
+Overfitting occurs when a model performs well on training data but poorly on unseen data.
+
+Underfitting
+
+Underfitting occurs when a model fails to learn important patterns.
+
+Train-Test Split
+
+Data is divided into training and testing sets to evaluate performance.
