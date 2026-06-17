@@ -36,6 +36,10 @@ def ask_question(query):
 
     query_lower = query.lower()
 
+    # ==========================================
+    # PAPER COMPARISON MODE
+    # ==========================================
+
     if query_lower.startswith("compare"):
 
         from comparison.compare_papers import (
@@ -65,6 +69,61 @@ def ask_question(query):
                 "database": "comparison_mode"
             }
 
+    # ==========================================
+    # LITERATURE REVIEW MODE
+    # ==========================================
+
+    literature_keywords = [
+        "literature review",
+        "survey",
+        "review paper",
+        "research review"
+    ]
+
+    if any(
+        keyword in query_lower
+        for keyword in literature_keywords
+    ):
+
+        from literature_review.literature_review import (
+            generate_literature_review
+        )
+
+        topic = query
+
+        replacements = [
+            "generate literature review on",
+            "literature review on",
+            "survey on",
+            "review paper on",
+            "research review on"
+        ]
+
+        for phrase in replacements:
+
+            topic = re.sub(
+                phrase,
+                "",
+                topic,
+                flags=re.IGNORECASE
+            )
+
+        topic = topic.strip()
+
+        review_result = generate_literature_review(
+            topic
+        )
+
+        return {
+            "answer": review_result["review"],
+            "sources": review_result["sources"],
+            "database": "literature_review_mode"
+        }
+
+    # ==========================================
+    # QUERY ROUTING
+    # ==========================================
+
     source = route_query(query)
 
     print(
@@ -83,6 +142,9 @@ def ask_question(query):
 
         db = notes_db
 
+    # ==========================================
+    # HYBRID RETRIEVAL
+    # ==========================================
 
     if source == "notes":
 
@@ -107,7 +169,6 @@ def ask_question(query):
         ]
     )
 
-
     prompt = f"""
 You are an expert research assistant.
 
@@ -128,6 +189,9 @@ Question:
         prompt
     )
 
+    # ==========================================
+    # CITATION FILTERING
+    # ==========================================
 
     sources = []
 
@@ -188,16 +252,10 @@ if __name__ == "__main__":
         )
 
         print("\nDatabase Used:")
-
-        print(
-            result["database"]
-        )
+        print(result["database"])
 
         print("\nAnswer:")
-
-        print(
-            result["answer"]
-        )
+        print(result["answer"])
 
         if result["sources"]:
 
