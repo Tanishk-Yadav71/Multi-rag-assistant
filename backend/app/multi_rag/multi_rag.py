@@ -15,10 +15,15 @@ from langchain_groq import ChatGroq
 
 from config import GROQ_API_KEY
 from router import route_query
+
 from database.database_loader import (
     papers_db,
     docs_db,
     notes_db
+)
+
+from retrieval.hybrid_retriever import (
+    hybrid_search
 )
 
 llm = ChatGroq(
@@ -32,9 +37,10 @@ def ask_question(query):
     query_lower = query.lower()
 
     if query_lower.startswith("compare"):
+
         from comparison.compare_papers import (
-    compare_papers
-)
+            compare_papers
+        )
 
         match = re.search(
             r"compare\s+(.*?)\s+and\s+(.*)",
@@ -45,6 +51,7 @@ def ask_question(query):
         if match:
 
             paper_a = match.group(1).strip()
+
             paper_b = match.group(2).strip()
 
             comparison = compare_papers(
@@ -60,7 +67,9 @@ def ask_question(query):
 
     source = route_query(query)
 
-    print(f"\nRouting to: {source}_db")
+    print(
+        f"\nRouting to: {source}_db"
+    )
 
     if source == "papers":
 
@@ -74,44 +83,30 @@ def ask_question(query):
 
         db = notes_db
 
-    if source == "papers":
 
-        retriever = db.as_retriever(
-            search_type="mmr",
-            search_kwargs={
-                "k": 10,
-                "fetch_k": 30
-            }
+    if source == "notes":
+
+        docs = hybrid_search(
+            query,
+            db,
+            k_vector=1,
+            k_bm25=1
         )
 
-    elif source == "docs":
+    else:
 
-        retriever = db.as_retriever(
-            search_kwargs={
-                "k": 2
-            }
+        docs = hybrid_search(
+            query,
+            db
         )
-
-    else:  # notes
-
-        retriever = db.as_retriever(
-            search_kwargs={
-                "k": 1
-            }
-        )
-
-    from retrieval.hybrid_retriever import (
-    hybrid_search
-)
-
-    docs = hybrid_search(
-    query,
-    db
-)
 
     context = "\n\n".join(
-        [doc.page_content for doc in docs]
+        [
+            doc.page_content
+            for doc in docs
+        ]
     )
+
 
     prompt = f"""
 You are an expert research assistant.
@@ -129,9 +124,14 @@ Question:
 {query}
 """
 
-    response = llm.invoke(prompt)
+    response = llm.invoke(
+        prompt
+    )
 
-    unique_sources = {}
+
+    sources = []
+
+    seen = set()
 
     for doc in docs:
 
@@ -140,17 +140,29 @@ Question:
             "Unknown"
         )
 
-        page = doc.metadata.get(
-            "page",
-            0
+        page = (
+            doc.metadata.get(
+                "page",
+                0
+            ) + 1
         )
 
-        unique_sources[source_file] = page + 1
+        citation = (
+            f"{source_file} | Page {page}"
+        )
 
-    sources = [
-        f"{file} | Page {page}"
-        for file, page in unique_sources.items()
-    ]
+        if citation not in seen:
+
+            sources.append(
+                citation
+            )
+
+            seen.add(
+                citation
+            )
+
+        if len(sources) >= 2:
+            break
 
     return {
         "answer": response.content,
@@ -168,19 +180,32 @@ if __name__ == "__main__":
         )
 
         if query.lower() == "exit":
+
             break
 
-        result = ask_question(query)
+        result = ask_question(
+            query
+        )
 
         print("\nDatabase Used:")
-        print(result["database"])
+
+        print(
+            result["database"]
+        )
 
         print("\nAnswer:")
-        print(result["answer"])
+
+        print(
+            result["answer"]
+        )
 
         if result["sources"]:
 
             print("\nSources:")
 
             for source in result["sources"]:
-                print("-", source)
+
+                print(
+                    "-",
+                    source
+                )
