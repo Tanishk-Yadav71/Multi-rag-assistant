@@ -100,7 +100,14 @@ def ask_question(query):
             }
         )
 
-    docs = retriever.invoke(query)
+    from retrieval.hybrid_retriever import (
+    hybrid_search
+)
+
+    docs = hybrid_search(
+    query,
+    db
+)
 
     context = "\n\n".join(
         [doc.page_content for doc in docs]
