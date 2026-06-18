@@ -36,9 +36,6 @@ def ask_question(query):
 
     query_lower = query.lower()
 
-    # ==========================================
-    # PAPER COMPARISON MODE
-    # ==========================================
 
     if query_lower.startswith("compare"):
 
@@ -69,9 +66,6 @@ def ask_question(query):
                 "database": "comparison_mode"
             }
 
-    # ==========================================
-    # LITERATURE REVIEW MODE
-    # ==========================================
 
     literature_keywords = [
         "literature review",
@@ -119,10 +113,38 @@ def ask_question(query):
             "sources": review_result["sources"],
             "database": "literature_review_mode"
         }
+    if any(
+    word in query.lower()
+    for word in [
+          "latest",
+         "recent",
+         "current",
+         "newest",
+         "today",
+    "2025",
+    "2026",
+    "advancements",
+    "state of the art",
+    "research trends",
+    "future of",
+    "emerging",
+    "recent developments"
+    ]
+):
 
-    # ==========================================
-    # QUERY ROUTING
-    # ==========================================
+        from agent.research_agent import (
+        research_agent
+        )
+
+        result = research_agent(
+        query
+    )
+
+        return {
+        "answer": result["answer"],
+        "sources": result["sources"],
+        "database": "web_research_mode"
+     }
 
     source = route_query(query)
 
@@ -142,9 +164,6 @@ def ask_question(query):
 
         db = notes_db
 
-    # ==========================================
-    # HYBRID RETRIEVAL
-    # ==========================================
 
     if source == "notes":
 
@@ -189,9 +208,6 @@ Question:
         prompt
     )
 
-    # ==========================================
-    # CITATION FILTERING
-    # ==========================================
 
     sources = []
 
