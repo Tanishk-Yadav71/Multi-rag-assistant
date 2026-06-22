@@ -1,10 +1,8 @@
+from typing import Dict, Any
 from database.database_loader import papers_db
 from retrieval.hybrid_retriever import hybrid_search
-
 from langchain_groq import ChatGroq
-
 from config import GROQ_API_KEY
-
 
 llm = ChatGroq(
     api_key=GROQ_API_KEY,
@@ -12,39 +10,50 @@ llm = ChatGroq(
 )
 
 
-def generate_literature_review(topic):
+def generate_literature_review(topic: str) -> Dict[str, Any]:
+    """
+    Generates a structured literature review based on academic papers.
+    Optimized for high-recall context retrieval and strict hallucination boundaries.
+    """
+    if not topic.strip():
+        return {
+            "review": "No topic provided to generate a literature review.",
+            "sources": []
+        }
 
     docs = hybrid_search(
-        topic,
-        papers_db
+        query=topic,
+        db=papers_db,
+        k_vector=10,  
+        k_bm25=10
     )
 
-    context = "\n\n".join(
-        [
-            doc.page_content
-            for doc in docs
-        ]
-    )
+    if not docs:
+        return {
+            "review": f"Could not find any relevant research papers matching the topic: '{topic}'.",
+            "sources": []
+        }
 
-    prompt = f"""
-You are an expert research assistant.
+    context_blocks = []
+    for doc in docs:
+        source_title = doc.metadata.get("source", "Unknown Document")
+        context_blocks.append(f"--- Document: {source_title} ---\n{doc.page_content}")
+        
+    context = "\n\n".join(context_blocks)
 
-IMPORTANT:
+    prompt = f"""You are an expert research assistant specializing in academic literature synthesis.
 
-- Use ONLY the provided context.
-- Do NOT invent authors.
-- Do NOT invent publication years.
-- Do NOT cite papers not present in the retrieved context.
-- If author names are unavailable, refer to the paper by its title or contribution..
+Your task is to write a rigorous, comprehensive literature review about: '{topic}'.
+
+CRITICAL INSTRUCTIONS:
+- Use ONLY the provided context below. Do not assume or extrapolate beyond these facts.
+- Do NOT invent authors, publication years, or journals.
+- If explicit author names or publication dates are missing from the text block, reference the paper strictly by its document title or distinct technical contribution.
 
 Context:
 {context}
 
-Topic:
-{topic}
-
-Generate a literature review with:
-
+Generate a comprehensive literature review formatted with the following headers:
 1. Introduction
 2. Key Papers and Contributions
 3. Research Trends
@@ -53,22 +62,14 @@ Generate a literature review with:
 6. Conclusion
 """
 
-    response = llm.invoke(
-        prompt
-    )
-
-    sources = []
-
-    for doc in docs:
-
-     sources.append(
-        doc.metadata.get(
-            "source",
-            "Unknown"
-        )
-    )
+    response = llm.invoke(prompt)
+    unique_sources = sorted(list({
+        doc.metadata.get("source") 
+        for doc in docs 
+        if doc.metadata.get("source")
+    }))
 
     return {
-    "review": response.content,
-    "sources": list(set(sources))
-}
+        "review": response.content,
+        "sources": unique_sources
+    }
