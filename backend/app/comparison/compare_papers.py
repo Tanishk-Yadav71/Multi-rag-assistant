@@ -10,8 +10,8 @@ except NameError:
     pass
 
 from langchain_groq import ChatGroq
-from config import GROQ_API_KEY
-from database.database_loader import papers_db
+from app.config import GROQ_API_KEY
+from app.database.database_loader import papers_db
 
 llm = ChatGroq(
     api_key=GROQ_API_KEY,

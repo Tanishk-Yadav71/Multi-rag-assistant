@@ -1,7 +1,7 @@
 from typing import Dict, Any
 from langchain_groq import ChatGroq
-from config import GROQ_API_KEY
-from agent.arxiv_search import search_arxiv
+from app.config import GROQ_API_KEY
+from app.agent.arxiv_search import search_arxiv
 
 llm = ChatGroq(
     api_key=GROQ_API_KEY,

@@ -1,7 +1,7 @@
 from typing import List, Optional
 from langchain_core.documents import Document
-from retrieval.bm25_retriever import BM25Retriever
-from retrieval.reranker import rerank
+from app.retrieval.bm25_retriever import BM25Retriever
+from app.retrieval.reranker import rerank
 
 _CACHED_BM25: Optional[BM25Retriever] = None
 _CACHED_DOC_COUNT: int = 0

@@ -7,7 +7,7 @@ try:
 except NameError:
     pass
 
-from agent.retrieval_agent import choose_tool
+from app.agent.retrieval_agent import choose_tool
 
 
 def ask_question(query: str) -> dict:

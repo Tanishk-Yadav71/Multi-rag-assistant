@@ -1,9 +1,9 @@
 from typing import Dict, Any, Optional
 from langchain_groq import ChatGroq
-from config import GROQ_API_KEY
-from database.database_loader import papers_db, docs_db, notes_db
-from retrieval.hybrid_retriever import hybrid_search
-from retrieval.confidence_checker import low_confidence
+from app.config import GROQ_API_KEY
+from app.database.database_loader import papers_db, docs_db, notes_db
+from app.retrieval.hybrid_retriever import hybrid_search
+from app.retrieval.confidence_checker import low_confidence
 
 llm = ChatGroq(
     api_key=GROQ_API_KEY,

@@ -1,8 +1,8 @@
 from typing import Dict, Any
-from database.database_loader import papers_db
-from retrieval.hybrid_retriever import hybrid_search
+from app.database.database_loader import papers_db
+from app.retrieval.hybrid_retriever import hybrid_search
 from langchain_groq import ChatGroq
-from config import GROQ_API_KEY
+from app.config import GROQ_API_KEY
 
 llm = ChatGroq(
     api_key=GROQ_API_KEY,

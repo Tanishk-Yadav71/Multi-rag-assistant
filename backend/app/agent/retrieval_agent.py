@@ -2,15 +2,14 @@ import re
 from typing import Any, Dict
 
 from langchain_groq import ChatGroq
-from config import GROQ_API_KEY
+from app.config import GROQ_API_KEY
 
-# Module Imports
-from comparison.compare_papers import compare_papers
-from literature_review.literature_review import generate_literature_review
-from agent.research_agent import research_agent
-from retrieval.rag_pipeline import run_rag_pipeline
+from app.comparison.compare_papers import compare_papers
+from app.literature_review.literature_review import generate_literature_review
+from app.agent.research_agent import research_agent
+from app.retrieval.rag_pipeline import run_rag_pipeline
 
-from agent.reflection_agent import (
+from app.agent.reflection_agent import (
     is_low_confidence,
     reflect_on_failure,
     rewrite_query,
