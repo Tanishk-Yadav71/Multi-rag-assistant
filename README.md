@@ -1,350 +1,321 @@
 # Agentic Multi-RAG Research Assistant
 
-An advanced multi-agent Retrieval-Augmented Generation (RAG) system that combines Hybrid Retrieval, Corrective RAG (CRAG), Reflection Agents, Literature Review Generation, Paper Comparison, and Real-Time Research Search into a single intelligent research assistant.
+> An advanced Agentic Retrieval-Augmented Generation (RAG) system featuring Hybrid Search, Corrective RAG (CRAG), Cross-Encoder Re-ranking, Multi-Agent Routing, Literature Review Generation, and Autonomous Recovery Workflows.
+
+
+## 🚀 Overview
+
+Agentic Multi-RAG is a research-focused AI assistant designed to overcome the limitations of traditional RAG systems.
+
+Unlike standard retrieval pipelines that fail silently when context is poor, this system actively evaluates retrieval quality, diagnoses failures, and executes corrective actions before generating a response.
+
+The assistant can intelligently search across multiple knowledge domains including:
+
+* 📄 Research Papers
+* 📚 Documentation
+* 📝 Personal Notes
+
+and automatically route queries to the most relevant knowledge source.
 
 ---
 
-## Features
+## ✨ Key Features
 
-### Multi-Agent Query Routing
+### 🔀 Multi-Agent Query Routing
 
-Automatically routes user queries to the most appropriate knowledge source:
+Automatically classifies incoming queries and routes them to specialized workflows:
 
-* Research Papers Database
-* Documentation Database
-* Academic Notes Database
-* Literature Review Agent
-* Paper Comparison Agent
-* Real-Time Research Agent (ArXiv)
+* Standard RAG
+* Literature Review Mode
+* Comparison Mode
 
 ---
 
-### Hybrid Retrieval Pipeline
+### 🔍 Hybrid Retrieval Engine
 
 Combines:
 
-* Dense Vector Search (ChromaDB)
-* Sparse BM25 Retrieval
-* Cross-Encoder Reranking
+* Dense Semantic Search (ChromaDB + BGE Embeddings)
+* Sparse Lexical Search (BM25)
 
-Pipeline:
-
-User Query
-→ Vector Search
-→ BM25 Search
-→ Result Fusion
-→ Reranking
-→ Context Generation
-→ LLM Response
+to maximize retrieval quality.
 
 ---
 
-### Corrective RAG (CRAG)
+### 🎯 Cross-Encoder Re-ranking
 
-The system evaluates answer quality after retrieval.
+Uses:
 
-If retrieval quality is poor:
+```text
+cross-encoder/ms-marco-MiniLM-L-6-v2
+```
 
-1. Reflection Agent analyzes failure
-2. Detects:
-
-   * Wrong Database
-   * Poor Query Formulation
-   * Insufficient Context
-3. Applies corrective actions:
-
-   * Database Rerouting
-   * Query Rewriting
-   * Deep Retrieval
+to remove noisy retrievals and prioritize highly relevant context before generation.
 
 ---
 
-### Reflection Agent
+### 🧠 Corrective RAG (CRAG)
 
-Self-evaluates generated answers.
+The system performs confidence evaluation before final response generation.
 
-Capabilities:
+When retrieval quality is low, a self-correction workflow is triggered.
 
-* Confidence Evaluation
-* Failure Diagnosis
-* Query Rewriting
-* Database Rerouting
+Supported recovery actions:
 
-This allows the system to recover from retrieval failures automatically.
+| Failure Type         | Recovery Action                  |
+| -------------------- | -------------------------------- |
+| wrong_database       | Switch knowledge base            |
+| bad_query            | Rewrite query                    |
+| insufficient_context | Deep retrieval + external search |
 
 ---
 
-### Research Agent
+### 📖 Literature Review Workspace
 
-For latest or emerging topics:
-
-* Searches ArXiv
-* Retrieves recent papers
-* Generates structured research summaries
-
-Includes:
+Automatically generates:
 
 * Research Summary
 * Key Findings
 * Research Trends
 * Research Gaps
 * Future Directions
+* Source Citations
 
 ---
 
-### Literature Review Generator
+### ⚖️ Comparison Mode
 
-Generates survey-style reviews for a research topic.
+Uses Maximum Marginal Relevance (MMR) retrieval to compare:
 
-Output includes:
-
-* Topic Overview
-* Existing Methods
-* Trends
-* Limitations
-* Research Opportunities
-
----
-
-### Paper Comparison Agent
-
-Compare:
-
-* Research Papers
 * Models
+* Research Papers
 * Architectures
-* Algorithms
+* Methods
 
-Example:
-
-Compare Vision Transformer and Swin Transformer
+while maximizing information diversity.
 
 ---
 
-## System Architecture
+## 🏗 Architecture
 
-User Query
-│
-▼
-Router Agent
-│
-├── Papers Database
-├── Docs Database
-├── Notes Database
-├── Literature Review Agent
-├── Comparison Agent
-└── Research Agent
-│
-▼
-Hybrid Retrieval
-(Vector + BM25)
-│
-▼
-Cross Encoder Reranker
-│
-▼
-LLM Generation
-│
-▼
-Reflection Agent
-│
-├── Confidence Check
-├── Query Rewrite
-├── Database Reroute
-├── Deep Retrieval
-└── Research Escalation
-│
-▼
-Final Response
+The retrieval pipeline combines routing, hybrid search, reranking, confidence evaluation, and corrective recovery.
+
+<img width="1512" height="1600" alt="image" src="https://github.com/user-attachments/assets/b743b093-68fb-4787-be89-05a4c24b285f" />
+
 
 ---
 
-## Technology Stack
+## 🖥 Frontend
+
+Modern React + Tailwind interface for interacting with the assistant.
+
+<img width="1500" height="802" alt="image" src="https://github.com/user-attachments/assets/3824db6d-8cbd-4ea7-b493-0599f18f5980" />
+
+
+Features:
+
+* Real-time responses
+* Source citations
+* Literature review generation
+* Comparison workspace
+* Dark modern UI
+
+---
+
+## 🔄 Corrective RAG Workflow
+
+When confidence falls below threshold:
+
+The system can:
+
+1. Rewrite the query
+2. Switch vector databases
+3. Increase retrieval depth
+4. Escalate to ArXiv or web search
+
+before generating the final response.
+
+---
+
+## 📚 Literature Review Example
+
+<img width="1302" height="570" alt="image" src="https://github.com/user-attachments/assets/d7ca4e1d-afa7-4768-b593-de5b7c9857e6" />
+
+
+Example output includes:
+
+* Summary
+* Key Findings
+* Research Trends
+* Research Gaps
+* Future Work
+* References
+
+---
+
+## ⚙️ Tech Stack
+
+### Backend
+
+* Python
+* FastAPI
+* LangChain
+
+### Retrieval
+
+* ChromaDB
+* BM25Okapi
+* HuggingFace Embeddings
+
+### Re-ranking
+
+* Cross Encoder
+* MS MARCO MiniLM
 
 ### LLM
 
 * Llama 3.3 70B
 * Groq API
 
-### Retrieval
+### Frontend
 
-* ChromaDB
-* BM25 Retrieval
-* Cross Encoder Reranking
+* React
+* Vite
+* Tailwind CSS
 
-### AI Frameworks
-
-* LangChain
-* Sentence Transformers
-
-### Research
+### Research Sources
 
 * ArXiv API
-
-### Language
-
-* Python
+* Web Search Fallback
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
-backend/
-
-├── agent/
-
-│   ├── retrieval_agent.py
-
-│   ├── reflection_agent.py
-
-│   └── research_agent.py
-
+```text
+agentic_multi_rag/
 │
-
-├── retrieval/
-
-│   ├── rag_pipeline.py
-
-│   ├── hybrid_retriever.py
-
-│   ├── bm25_retriever.py
-
-│   └── reranker.py
-
+├── assets/
+│   ├── architecture.png
+│   ├── frontend.png
+│   ├── crag.png
+│   └── literature-review.png
 │
-
-├── literature_review/
-
-│   └── literature_review.py
-
+├── backend/
+│   ├── app/
+│   ├── data/
+│   └── vector_store/
 │
-
-├── comparison/
-
-│   └── compare_papers.py
-
+├── frontend/
+│   ├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
 │
-
-├── database/
-
-│   └── database_loader.py
-
-│
-
-├── multi_rag/
-
-│   └── multi_rag.py
-
-│
-
-└── data/
-
-├── papers/
-
-├── docs/
-
-└── notes/
+└── README.md
+```
 
 ---
 
-## Example Queries
+## 🚀 Getting Started
 
-### Papers Database
+### Backend
 
+```bash
+cd backend
+
+python -m venv venv
+
+venv\Scripts\activate
+
+pip install -r requirements.txt
+
+uvicorn app.api.main:app --reload
+```
+
+Backend:
+
+```text
+http://localhost:8000
+```
+
+Swagger:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+### Frontend
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## 💡 Example Queries
+
+### Research Paper Search
+
+```text
 What is Vision Transformer?
-
-Explain Swin Transformer.
-
----
-
-### Documentation Database
-
-What is FastAPI?
-
-Explain LangGraph.
-
----
-
-### Academic Notes Database
-
-What is BCNF?
-
-Explain Deadlock Prevention.
-
----
+```
 
 ### Literature Review
 
-Generate literature review on Retrieval Augmented Generation.
+```text
+Generate a literature review on Vision Transformers.
+```
 
-Survey on Vision Transformers.
+### Comparison Mode
 
----
-
-### Comparison
-
+```text
 Compare Vision Transformer and Swin Transformer.
+```
 
-Compare RAG and Fine Tuning.
+### Documentation Search
 
----
+```text
+What is FastAPI?
+```
 
-### Research Agent
+### Notes Search
 
-Latest research on Agentic AI.
-
-Recent papers on Graph RAG.
-
-Current research trends in Multimodal LLMs.
-
----
-
-## Current Capabilities
-
-✅ Multi-Agent Routing
-
-✅ Hybrid Retrieval
-
-✅ Cross Encoder Reranking
-
-✅ Reflection Agent
-
-✅ Corrective RAG (CRAG)
-
-✅ Query Rewriting
-
-✅ Database Rerouting
-
-✅ Deep Retrieval
-
-✅ Research Escalation
-
-✅ Literature Review Generation
-
-✅ Paper Comparison
-
-✅ ArXiv Research Search
+```text
+Explain BCNF.
+```
 
 ---
 
-## Future Roadmap
+## 🎯 Future Roadmap
 
-* FastAPI Backend
-* REST API Endpoints
-* Streamlit Frontend
-* Conversation Memory
-* Knowledge Graph RAG
-* Multi-Hop Reasoning
-* Evaluation Framework
-* Hallucination Detection
-* Agent Analytics Dashboard
+* Conversational Memory
+* Streaming Responses
+* PDF Uploads
+* Citation Verification
+* Research Report Export
+* Multi-Agent Planning
 * Docker Deployment
-* Cloud Deployment (AWS/GCP/Azure)
 
 ---
 
-## Author
+## ⭐ Author
 
-Aditya Yadav
+**Aditya Yadav**
 
-AI/ML Engineer | Agentic AI | RAG Systems | LLM Applications
+GitHub:
+https://github.com/enx29
+
+If you find this project interesting, consider giving it a star ⭐
